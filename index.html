@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Khai King Live</title>
+
+  <link rel="stylesheet" href="bootstrap-3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="normalize.css">
+  <link rel="stylesheet" href="vex/css/vex.css" />
+  <link rel="stylesheet" href="vex/css/vex-theme-default.css" />
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+  <img class="main-background" src="images/bg-1.png" />
+
+  <div class="video-region">
+      <video class="local-video" id="localVideo" autoplay></video>
+      <video class="remote-video" id="remoteVideo" autoplay></video>
+  </div>
+
+  <div class="login-panel fade">
+    <form>
+      <div class="login-header">Login Now</div>
+      <div class="login-control">
+        <span class="login-control-icon"><i class="fa fa-user-o" aria-hidden="true"></i></span>
+        <input id="loginUsername" type="text" value="user1" class="login-control-input" placeholder="Enter username">
+      </div>
+
+      <div class="login-control" style="margin-top: 10px; margin-bottom: 2px;">
+        <span class="login-control-icon"><i class="fa fa-lock" aria-hidden="true"></i></span>
+        <input id="loginPassword" type="password" value="111" class="login-control-input" placeholder="Enter password">
+      </div>
+
+      <div id="loginSummary"></div>
+
+      <div class="login-control">
+        <button type="submit" class="btn btn-primary btn-login">LOGIN</button>
+      </div>
+    </form>
+  </div>
+
+
+  <div class="loged-panel fade fade-out">
+    <button class="btn-logout btn btn-danger">LOGOUT</button>
+
+    <div class="chat-region">
+      <div class="hidden-chatbox list-hidden-user scroll-style-6">
+
+      </div>
+
+      <div class="hidden-chatbox show-hidden-user" title="Show hidden chat">
+        <i class="fa fa-id-card-o" aria-hidden="true"></i>
+      </div>
+    </div>
+
+
+    <div class="list-provider-box">
+      <div class="box-3">
+        <div class="box-3-header">
+          <div class="provider-box-header">
+            <span class="provider-box-title">
+                List provider <span id="counterProvider"></span>
+            </span>
+            <span class="provider-box-controls">
+                <i class="fa fa-cog provider-control" aria-hidden="true"></i>
+              </span>
+          </div>
+        </div>
+
+        <div class="box-3-content scroll-style-6">
+          <div class="overplay-provider"></div>
+          <div class="list-provider"></div>
+        </div>
+
+        <div class="box-3-footer">
+          <div class="custom-input">
+            <span class="custom-input-icon"><i class="fa fa-search" aria-hidden="true"></i></span>
+            <span class="custom-input-content">
+                <input id="filterProvider" type="text" placeholder="Search provider"/>
+            </span>
+            <span class="custom-input-clear" title="Clear text"><i class="fa fa-close" aria-hidden="true"></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="jquery-3.2.1.min.js"></script>
+  <script src="bootstrap-3.3.7/js/bootstrap.min.js"></script>
+  <script src="socket.io.js"></script>
+  <script src="peer.min.js"></script>
+  <script src="vex/js/vex.combined.min.js"></script>
+  <script src="index.js"></script>
+</body>
+
+</html>
