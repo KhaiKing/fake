@@ -15,13 +15,7 @@ var peerId, customConfig, localStream;
 //   }
 // });
 
-// customConfig = [
-//   {
-//     url: 'turn:turn.anyfirewall.com:443?transport=tcp',
-//     credential: 'webrtc',
-//     username: 'webrtc'
-//   }
-// ]
+customConfig = { 'iceServers': [{ 'url': 'stun:stun.l.google.com:19302' }] };
 
 var peer = new Peer({
   key: 'peerjs',
