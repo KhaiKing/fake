@@ -15,9 +15,15 @@ $.ajax({
   }
 });
 
-// customConfig = [
-//   {url:'stun:stun.l.google.com:19302'}
-// ]
+// customConfig = { 'iceServers': [
+//   {
+//     url: 'turn:turn.anyfirewall.com:443?transport=tcp',
+//     credential: 'webrtc',
+//     username: 'webrtc'
+//   }
+// ]};
+
+console.log(customConfig);
 
 var peer = new Peer({
   key: 'peerjs',
@@ -30,7 +36,6 @@ var peer = new Peer({
 // var peer = new Peer({
 //   key: 'kv7pis9v4n3o9a4i',
 // });
-
 
 function playLocal(stream) {
   localVideo.srcObject = stream;
