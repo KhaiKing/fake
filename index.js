@@ -3,21 +3,27 @@ const socket = io("https://facebook-fake.herokuapp.com/");
 
 var peerId, customConfig, localStream;
 
-$.ajax({
-  url: "https://global.xirsys.net/_turn/TurnRTC/",
-  type: "PUT",
-  async: false,
-  headers: {
-    "Authorization": "Basic " + btoa("khaiking:9e68b986-75d2-11e7-ba8b-d7aa9a6627d5")
-  },
-  success: function(res) {
-    customConfig = res.v;
+// $.ajax({
+//   url: "https://global.xirsys.net/_turn/TurnRTC/",
+//   type: "PUT",
+//   async: false,
+//   headers: {
+//     "Authorization": "Basic " + btoa("khaiking:9e68b986-75d2-11e7-ba8b-d7aa9a6627d5")
+//   },
+//   success: function(res) {
+//     customConfig = res.v;
+//   }
+// });
+
+customConfig = { 'iceServers': [
+  {
+    url: 'turn:turn.anyfirewall.com:443?transport=tcp',
+    credential: 'webrtc',
+    username: 'webrtc'
   }
-});
+]};
 
 console.log(customConfig);
-
-// customConfig = { 'iceServers': [{ 'url': 'stun:stun.l.google.com:19302' }] };
 
 var peer = new Peer({
   key: 'peerjs',
