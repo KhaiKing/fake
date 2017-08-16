@@ -11,7 +11,7 @@ $.ajax({
     "Authorization": "Basic " + btoa("khaiking:9e68b986-75d2-11e7-ba8b-d7aa9a6627d5")
   },
   success: function(res) {
-    customConfig = [res.v.iceServers[4]];
+    customConfig = res.v;
   }
 });
 
@@ -38,6 +38,9 @@ function playLocal(stream) {
 
 function playRemote(remoteStream, peerId) {
   remoteVideo.srcObject = remoteStream;
+  remoteVideo.play().catch(function(err){
+    alert("Error: " + err.message);
+  })
 }
 
 //PEER
@@ -47,7 +50,7 @@ peer.on("open", function(id) {
 
 function openStream() {
   const config = {
-    audio: false,
+    audio: true,
     video: true
   };
 
@@ -80,11 +83,11 @@ peer.on("call", function(call) {
   }
 })
 
-
 function showLive(peerId) {
   $(".video-region").css("display", "block");
   $(".list-provider-box").addClass("isHide");
   $(".chat-box.isShow").addClass("isHide");
+  showLiveControls();
 
   openStream().then(function(stream) {
       localStream = stream;
@@ -101,11 +104,24 @@ function showLive(peerId) {
 }
 
 //SOCKET EVENT
+socket.on("STOP_CALL", function(response){
+  $.each(response.usernames, function(){
+    $(".provider[data-username=" + this + "]").removeClass("calling");
+  })
+})
+
+socket.on("QUIT_LIVE", function(response){
+  showLoged();
+  vex.dialog.alert({
+    message: response.fullname + " quited room",
+    className: 'vex-theme-default',
+  })
+})
+
 socket.on("NEW_CALLING", function(response) {
   $(".provider[data-username=" + response.caller + "]").addClass("calling");
   $(".provider[data-username=" + response.receiver + "]").addClass("calling");
 })
-
 
 var callRequestDialog;
 socket.on("CALL_REQUEST", function(response) {
@@ -138,7 +154,6 @@ socket.on("CALL_RESPONSE", function(response) {
 socket.on("LOGOUT", function(response) {
   $(".list-provider .provider[data-username=" + response + "]")
     .removeClass("calling").removeClass("online").addClass("offline");
-  counterProvider--;
   updateCounterProvider();
 })
 
@@ -156,7 +171,6 @@ socket.on("LOGIN_RESULT", function(response) {
 
 socket.on("NEW_LOGIN", function(response) {
   $(".list-provider .provider[data-username=" + response + "]").removeClass("offline").addClass("online");
-  counterProvider++;
   updateCounterProvider();
 })
 
@@ -174,7 +188,7 @@ socket.on("SEND_MESSAGE", function(response) {
 //CUSTOM INPUT
 $(document).on("keyup change paste", ".custom-input-content input", function() {
   if ($(this).val().length > 0) {
-    $(this).parent().siblings(".custom-input-clear").css("display", "table-cell");
+    $(this).parent().siblings(".custom-input-clear").css("display", "inline-block");
   } else {
     $(this).parent().siblings(".custom-input-clear").css("display", "none");
   }
@@ -255,6 +269,61 @@ $(document).on("click", ".hidden-user", function() {
   activeChatbox(chatbox);
 
   $(".list-hidden-user").removeClass("isShow");
+})
+
+$(document).on("click", ".live-camera", function(){
+  if($(this).hasClass("slash")) {
+    $(this).removeClass("slash").attr("title", "No Video");
+  }
+  else {
+    $(this).addClass("slash").attr("title", "Show Video");;
+  }
+  if (localStream !== undefined) {
+    localStream.getVideoTracks()[0].enabled = !localStream.getVideoTracks()[0].enabled;
+  }
+})
+
+$(document).on("click", ".live-microphone", function(){
+  if($(this).hasClass("slash")) {
+    $(this).removeClass("slash").attr("title", "Mute");
+  }
+  else {
+    $(this).addClass("slash").attr("title", "Unmute");
+  }
+  if (localStream !== undefined) {
+    localStream.getAudioTracks()[0].enabled = !localStream.getAudioTracks()[0].enabled;
+  }
+})
+
+function showLiveControls(){
+  if(!hardShow) {
+    $(".live-controls").addClass("isShow");
+    clearTimeout(liveControlsTimeout);
+    liveControlsTimeout = setTimeout(function(){
+      $(".live-controls").removeClass("isShow");
+    }, 3000);
+  }
+}
+
+var liveControlsTimeout, hardShow;
+$(".video-region").on("mousemove", function(){
+   showLiveControls();
+})
+
+$(document).on("mouseenter", ".live-control", function(){
+  hardShow = true;
+  $(".live-controls").addClass("isShow");
+  clearTimeout(liveControlsTimeout);
+})
+
+$(document).on("mouseleave", ".live-control", function(){
+  hardShow = false;
+})
+
+
+$(".live-quit").on("click", function(){
+  showLoged();
+  socket.emit("QUIT_LIVE");
 })
 
 $(window).on("resize", arrangeChat);
@@ -482,10 +551,28 @@ function showLoginError(message) {
   }, 100);
 }
 
+function removeStream(stream) {
+  if(stream !== undefined) {
+    stream.getVideoTracks()[0].enabled = false;
+    stream.getVideoTracks()[0].stop();
+    stream.getAudioTracks()[0].enabled = false;
+    stream.getAudioTracks()[0].stop();
+  }
+}
+
 function showLoged() {
   $(".login-panel").addClass("fade-out");
   $(".loged-panel").removeClass("fade-out");
   $(".list-provider-box").removeClass("isHide");
+  $(".video-region").css("display", "none");
+
+  localVideo.src = "";
+  remoteVideo.src = "";
+  removeStream(localStream);
+  localStream = undefined;
+
+  $(".live-camera").removeClass("slash");
+  $(".live-microphone").removeClass("slash");
 }
 
 function renderProvider(arr) {
@@ -520,8 +607,6 @@ function renderProvider(arr) {
   updateCounterProvider();
 }
 
-var counterProvider = 0;
-
 function updateCounterProvider() {
   $("#counterProvider").text("(" + $(".provider.online").length + "/" + $(".list-provider").children().length + ")");
 }
@@ -537,12 +622,6 @@ function showLogin() {
   $(".chat-region").children(":not(.hidden-chatbox)").remove();
   $(".video-region").css("display", "none");
   $("#loginUsername").focus();
-  localVideo.src = "";
-  remoteVideo.src = "";
-  if(localStream !== undefined) {
-    localStream.getTracks()[0].stop();
-    localStream = undefined;
-  }
 }
 
 $(document).ready(function() {

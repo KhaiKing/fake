@@ -16,12 +16,6 @@
 
 <body>
   <img class="main-background" src="images/bg-1.png" />
-
-  <div class="video-region">
-      <video class="local-video" id="localVideo" autoplay></video>
-      <video class="remote-video" id="remoteVideo" autoplay></video>
-  </div>
-
   <div class="login-panel fade">
     <form>
       <div class="login-header">Login Now</div>
@@ -44,8 +38,26 @@
   </div>
 
 
-  <div class="loged-panel fade fade-out">
+  <div class="loged-panel fade fade-out">    
     <button class="btn-logout btn btn-danger">LOGOUT</button>
+
+    <div class="video-region">
+        <video class="local-video" id="localVideo" autoplay></video>
+        <video class="remote-video" id="remoteVideo"></video>
+        <div class="live-controls">
+            <div class="live-control live-camera" title="No Video">
+                <i class="fa fa-video-camera" aria-hidden="true"></i>
+                <div class="live-control-slash"></div>
+            </div>
+            <div class="live-control live-microphone" title="Mute">
+                <i class="fa fa-microphone" aria-hidden="true"></i>
+                <div class="live-control-slash"></div>
+            </div>
+            <div class="live-control live-quit" title="Quit room">
+                <i class="fa fa-close" aria-hidden="true"></i>
+            </div>
+        </div>
+    </div>
 
     <div class="chat-region">
       <div class="hidden-chatbox list-hidden-user scroll-style-6">
