@@ -35,7 +35,6 @@ var peer = new Peer({
 //   key: 'kv7pis9v4n3o9a4i',
 // });
 
-
 function playLocal(stream) {
   localVideo.srcObject = stream;
 }
