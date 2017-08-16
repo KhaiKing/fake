@@ -15,13 +15,13 @@ var peerId, customConfig, localStream;
 //   }
 // });
 
-customConfig = [
-  {
-    url: 'turn:turn.anyfirewall.com:443?transport=tcp',
-    credential: 'webrtc',
-    username: 'webrtc'
-  }
-]
+// customConfig = [
+//   {
+//     url: 'turn:turn.anyfirewall.com:443?transport=tcp',
+//     credential: 'webrtc',
+//     username: 'webrtc'
+//   }
+// ]
 
 var peer = new Peer({
   key: 'peerjs',
