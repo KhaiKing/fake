@@ -575,11 +575,16 @@ function showLoginError(message) {
 }
 
 function removeStream(stream) {
-  if(stream !== undefined) {
-    stream.getVideoTracks()[0].enabled = false;
-    stream.getVideoTracks()[0].stop();
-    stream.getAudioTracks()[0].enabled = false;
-    stream.getAudioTracks()[0].stop();
+  try {
+    if(stream !== undefined) {
+      stream.getVideoTracks()[0].enabled = false;
+      stream.getVideoTracks()[0].stop();
+      stream.getAudioTracks()[0].enabled = false;
+      stream.getAudioTracks()[0].stop();
+    }
+  }
+  catch(err) {
+    alert("Error: " + err.message);
   }
 }
 
