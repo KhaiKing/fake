@@ -1,7 +1,7 @@
 // const socket = io("http://192.168.1.124:8888");
 const socket = io("https://facebook-fake.herokuapp.com/");
 
-var peerId, customConfig, localStream, messageId = 0;
+var customConfig, localStream, messageId = 0;
 
 $.ajax({
   url: "https://global.xirsys.net/_turn/TurnRTC/",
@@ -56,10 +56,6 @@ function playRemote(remoteStream, peerId) {
   }
 }
 
-//PEER
-peer.on("open", function(id) {
-  peerId = id;
-})
 
 function openStream() {
   const config = {
@@ -94,7 +90,7 @@ peer.on("call", function(call) {
   }
 })
 
-function showLive(peerId) {
+function showLive() {
   $(".video-region").css("display", "block");
   $(".list-provider-box").addClass("isHide");
   $(".chat-box.isShow").addClass("isHide");
@@ -573,7 +569,7 @@ function checkLogin() {
   socket.emit("LOGIN", {
     username: $("#loginUsername").val(),
     password: $("#loginPassword").val(),
-    peerId: peerId
+    peerId: peer.id
   });
 }
 
