@@ -95,19 +95,6 @@ function showLive(peerId) {
   $(".chat-box.isShow").addClass("isHide");
   $(".btn-logout").css("display", "none");
   showLiveControls();
-
-  // openStream().then(function(stream) {
-  //     localStream = stream;
-  //     playLocal(localStream);
-  //
-  //     let call = peer.call(peerId, localStream);
-  //     call.on("stream", function(remoteStream) {
-  //       playRemote(remoteStream, call.peer);
-  //     });
-  //   })
-  //   .catch(err => {
-  //     alert(err.message)
-  //   });
 }
 
 //SOCKET EVENT
@@ -152,7 +139,19 @@ socket.on("CANCEL_CALL_REQUEST", function() {
 
 socket.on("CALL_RESPONSE", function(response) {
   if (response.success) {
-    showLive(response.peerId);
+    openStream().then(function(stream) {
+        localStream = stream;
+        playLocal(localStream);
+
+        let call = peer.call(response.peerId, localStream);
+        call.on("stream", function(remoteStream) {
+          playRemote(remoteStream, call.peer);
+        });
+      })
+      .catch(err => {
+        alert(err.message)
+      });
+    showLive();
   } else {
     vex.dialog.alert({
       message: response.message,
