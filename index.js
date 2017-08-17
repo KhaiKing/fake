@@ -44,7 +44,7 @@ function playLocal(stream) {
 function playRemote(remoteStream, peerId) {
   try {
     remoteVideo.srcObject = remoteStream;
-    remoteVideo.play();
+    // remoteVideo.play();
   }
   catch(err) {
     alert("Error: " + err.message);
@@ -137,15 +137,17 @@ socket.on("CANCEL_CALL_REQUEST", function() {
   }
 })
 
+var peerCall;
+
 socket.on("CALL_RESPONSE", function(response) {
   if (response.success) {
     openStream().then(function(stream) {
         localStream = stream;
         playLocal(localStream);
 
-        let call = peer.call(response.peerId, localStream);
-        call.on("stream", function(remoteStream) {
-          playRemote(remoteStream, call.peer);
+        peerCall = peer.call(response.peerId, localStream);
+        peerCall.on("stream", function(remoteStream) {
+          playRemote(remoteStream);
         });
       })
       .catch(err => {
@@ -584,7 +586,7 @@ function removeStream(stream) {
     }
   }
   catch(err) {
-    alert("Error: " + err.message);
+    console.log("Error: " + err.message);
   }
 }
 
@@ -599,6 +601,11 @@ function showLoged() {
   remoteVideo.src = "";
   removeStream(localStream);
   localStream = undefined;
+
+  if(peerCall !== undefined) {
+    peerCall.close();
+    peerCall = undefined;
+  }
 
   $(".live-camera").removeClass("slash");
   $(".live-microphone").removeClass("slash");
