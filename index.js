@@ -42,10 +42,13 @@ function playLocal(stream) {
 }
 
 function playRemote(remoteStream, peerId) {
-  remoteVideo.srcObject = remoteStream;
-  remoteVideo.play().catch(function(err){
+  try {
+    remoteVideo.srcObject = remoteStream;
+    remoteVideo.play();
+  }
+  catch(err) {
     alert("Error: " + err.message);
-  })
+  }
 }
 
 //PEER
