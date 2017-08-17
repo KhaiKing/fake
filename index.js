@@ -66,9 +66,7 @@ function openStream() {
 }
 
 function playPeer(call) {
-  $(".video-region").css("display", "block");
-  $(".list-provider-box").addClass("isHide");
-  $(".chat-box.isShow").addClass("isHide");
+  showLive();
 
   playLocal(localStream);
   call.answer(localStream);
