@@ -140,34 +140,24 @@ socket.on("CANCEL_CALL_REQUEST", function() {
 
 var peerCall;
 
-function playLive(peerId){
-  playLocal(localStream);
-
-  if(peer.disconnected) {
-    peer.reconnect();
-  }
-
-  peerCall = peer.call(peerId, localStream);
-  peerCall.on("stream", function(remoteStream) {
-    playRemote(remoteStream);
-  });
-}
-
 socket.on("CALL_RESPONSE", function(response) {
   if (response.success) {
-    if(localStream !== undefined) {
-      playLive(response.peerId);
-    }
-    else {
-      openStream().then(function(stream) {
-          localStream = stream;
-          playLive(response.peerId);
-        })
-        .catch(err => {
-          alert(err.message)
-        });
-    }
+    openStream().then(function(stream) {
+        localStream = stream;
+        playLocal(localStream);
 
+        if(peer.disconnected) {
+          peer.reconnect();
+        }
+
+        peerCall = peer.call(response.peerId, localStream);
+        peerCall.on("stream", function(remoteStream) {
+          playRemote(remoteStream);
+        });
+      })
+      .catch(err => {
+        alert(err.message)
+      });
     showLive();
   } else {
     vex.dialog.alert({
