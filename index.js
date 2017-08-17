@@ -605,7 +605,7 @@ function showLoged() {
   localVideo.src = "";
   remoteVideo.src = "";
   removeStream(localStream);
-  localStream = undefined;
+  // localStream = undefined;
 
   if(peerCall !== undefined) {
     peerCall.close();
