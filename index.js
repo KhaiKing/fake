@@ -155,7 +155,10 @@ socket.on("CALL_RESPONSE", function(response) {
   if (response.success) {
     showLive(response.peerId);
   } else {
-    alert(response.message);
+    vex.dialog.alert({
+      message: response.message,
+      className: 'vex-theme-default'
+    });
   }
 })
 
