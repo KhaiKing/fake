@@ -197,8 +197,9 @@ socket.on("SEND_MESSAGE", function(response) {
 })
 
 socket.on("SEND_MESSAGE_FAILED", function(response) {
-  $(".text-message.own-message[data-messageId=" + response.messageId + "]")
-  .after('<div class="message-error">' + response.error + '</div>')
+  var message = $(".text-message.own-message[data-messageId=" + response.messageId + "]");
+  message.after('<div class="message-error">' + response.error + '</div>');
+  message.parent().scrollTop(message.parent()[0].scrollHeight);
 })
 
 
