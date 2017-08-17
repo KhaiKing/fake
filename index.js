@@ -1,7 +1,7 @@
 // const socket = io("http://192.168.1.124:8888");
 const socket = io("https://facebook-fake.herokuapp.com/");
 
-var peerId, customConfig, localStream;
+var peerId, customConfig, localStream, messageId = 0;
 
 $.ajax({
   url: "https://global.xirsys.net/_turn/TurnRTC/",
@@ -190,9 +190,15 @@ socket.on("RECEIVE_MESSAGE", function(response) {
 socket.on("SEND_MESSAGE", function(response) {
   var chatbox = openChat(response.username, response.fullname, response.avatar);
   var content = chatbox.find(".box-3-content");
-  content.append(createOwnMessage(response.message));
+  messageId = response.messageId;
+  content.append(createOwnMessage(response.message, messageId));
   content.scrollTop(content[0].scrollHeight);
   arrangeChat();
+})
+
+socket.on("SEND_MESSAGE_FAILED", function(response) {
+  $(".text-message.own-message[data-messageId=" + response.messageId + "]")
+  .after('<div class="message-error">' + response.error + '</div>')
 })
 
 
@@ -253,14 +259,15 @@ $(document).on("keypress", ".chat-box .custom-input-content input", function(e) 
   if (key == 13) {
     //enter => send chat
     var username = $(this).parents(".chat-box").attr("data-username");
-    socket.emit("SEND_MESSAGE", {
-      message: message,
-      username: username
-    });
     var content = $(this).parents(".box-3-footer").siblings(".box-3-content");
-    content.append(createOwnMessage(message));
+    content.append(createOwnMessage(message, messageId));
     content.scrollTop(content[0].scrollHeight);
     $(this).val('');
+    socket.emit("SEND_MESSAGE", {
+      message: message,
+      messageId: messageId++,
+      username: username
+    });
   }
 })
 
@@ -407,8 +414,8 @@ function arrangeChat() {
   }
 }
 
-function createOwnMessage(text) {
-  return $('<div class="text-message own-message"></div>').text(text);
+function createOwnMessage(text, messageId) {
+  return $('<div data-messageId="' + messageId + '" class="text-message own-message"></div>').text(text);
 }
 
 function createOtherMessage(text, username, fullname, avatar) {

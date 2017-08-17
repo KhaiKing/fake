@@ -650,6 +650,13 @@ body {
   opacity: 0.7;
 }
 
+.message-error {
+  clear: both;
+  float: right;
+  font-size: 10px;
+  color: #8e8c8a;
+}
+
 .text-message {
   position: relative;
   border-radius: 7px;
