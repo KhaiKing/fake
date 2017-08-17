@@ -96,18 +96,18 @@ function showLive(peerId) {
   $(".btn-logout").css("display", "none");
   showLiveControls();
 
-  openStream().then(function(stream) {
-      localStream = stream;
-      playLocal(localStream);
-
-      let call = peer.call(peerId, localStream);
-      call.on("stream", function(remoteStream) {
-        playRemote(remoteStream, call.peer);
-      });
-    })
-    .catch(err => {
-      alert(err.message)
-    });
+  // openStream().then(function(stream) {
+  //     localStream = stream;
+  //     playLocal(localStream);
+  //
+  //     let call = peer.call(peerId, localStream);
+  //     call.on("stream", function(remoteStream) {
+  //       playRemote(remoteStream, call.peer);
+  //     });
+  //   })
+  //   .catch(err => {
+  //     alert(err.message)
+  //   });
 }
 
 //SOCKET EVENT
@@ -305,7 +305,7 @@ $(document).on("click", ".live-microphone", function(){
     $(this).addClass("slash").attr("title", "Unmute");
   }
   if (localStream !== undefined) {
-    localStream.getAudioTracks()[0].muted = !localStream.getAudioTracks()[0].muted;
+    localStream.getAudioTracks()[0].enabled = !localStream.getAudioTracks()[0].enabled;
   }
 })
 
