@@ -25,13 +25,18 @@ $.ajax({
 
 console.log(customConfig);
 
-var peer = new Peer({
-  key: 'peerjs',
-  host: 'peerjs-server-001.herokuapp.com',
-  secure: true,
-  port: 443,
-  config: customConfig
-});
+var peer;
+function newPeer() {
+  peer = new Peer({
+    key: 'peerjs',
+    host: 'peerjs-server-001.herokuapp.com',
+    secure: true,
+    port: 443,
+    config: customConfig
+  });
+}
+
+newPeer();
 
 // var peer = new Peer({
 //   key: 'kv7pis9v4n3o9a4i',
@@ -144,6 +149,10 @@ socket.on("CALL_RESPONSE", function(response) {
     openStream().then(function(stream) {
         localStream = stream;
         playLocal(localStream);
+
+        if(peer.disconnected) {
+          peer.reconnect();
+        }
 
         peerCall = peer.call(response.peerId, localStream);
         peerCall.on("stream", function(remoteStream) {
