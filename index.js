@@ -118,7 +118,7 @@ socket.on("STOP_CALL", function(response){
 socket.on("QUIT_LIVE", function(response){
   showLoged();
   vex.dialog.alert({
-    message: response.fullname + " quited room",
+    message: response.fullname + " quited",
     className: 'vex-theme-default',
   })
 })
