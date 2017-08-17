@@ -58,7 +58,7 @@ peer.on("open", function(id) {
 
 function openStream() {
   const config = {
-    audio: true,
+    audio: false,
     video: true
   };
 
