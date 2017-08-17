@@ -305,7 +305,7 @@ $(document).on("click", ".live-microphone", function(){
     $(this).addClass("slash").attr("title", "Unmute");
   }
   if (localStream !== undefined) {
-    localStream.getAudioTracks()[0].enabled = !localStream.getAudioTracks()[0].enabled;
+    localStream.getAudioTracks()[0].muted = !localStream.getAudioTracks()[0].muted;
   }
 })
 
