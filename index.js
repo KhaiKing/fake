@@ -77,17 +77,13 @@ function playPeer(call) {
 }
 
 peer.on("call", function(call) {
-  if (localStream !== undefined) {
-    playPeer(call);
-  } else {
-    openStream().then(function(stream) {
-        localStream = stream;
-        playPeer(call);
-      })
-      .catch(err => {
-        alert(err.message)
-      });
-  }
+  openStream().then(function(stream) {
+      localStream = stream;
+      playPeer(call);
+    })
+    .catch(err => {
+      alert(err.message)
+    });
 })
 
 function showLive() {
