@@ -95,6 +95,7 @@ function showLive(peerId) {
   $(".video-region").css("display", "block");
   $(".list-provider-box").addClass("isHide");
   $(".chat-box.isShow").addClass("isHide");
+  $(".btn-logout").css("display", "none");
   showLiveControls();
 
   openStream().then(function(stream) {
@@ -582,6 +583,7 @@ function showLoged() {
   $(".loged-panel").removeClass("fade-out");
   $(".list-provider-box").removeClass("isHide");
   $(".video-region").css("display", "none");
+  $(".btn-logout").css("display", "block");
 
   localVideo.src = "";
   remoteVideo.src = "";
