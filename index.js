@@ -28,7 +28,7 @@ console.log(customConfig);
 var peer = new Peer({
   key: 'peerjs',
   host: 'peerjs-server-001.herokuapp.com',
-  secure: false,
+  secure: true,
   port: 443,
   config: customConfig
 });
