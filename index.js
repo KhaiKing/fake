@@ -191,7 +191,9 @@ socket.on("RECEIVE_MESSAGE", function(response) {
 
 socket.on("SEND_MESSAGE", function(response) {
   var chatbox = openChat(response.username, response.fullname, response.avatar);
-  chatbox.find(".box-3-content").append(createOwnMessage(response.message));
+  var content = chatbox.find(".box-3-content");
+  content.append(createOwnMessage(response.message));
+  content.scrollTop(content[0].scrollHeight);
   arrangeChat();
 })
 
@@ -257,7 +259,9 @@ $(document).on("keypress", ".chat-box .custom-input-content input", function(e) 
       message: message,
       username: username
     });
-    $(this).parents(".box-3-footer").siblings(".box-3-content").append(createOwnMessage(message));
+    var content = $(this).parents(".box-3-footer").siblings(".box-3-content");
+    content.append(createOwnMessage(message));
+    content.scrollTop(content[0].scrollHeight);
     $(this).val('');
   }
 })
@@ -414,7 +418,9 @@ function createOtherMessage(text, username, fullname, avatar) {
   var html = $('<div class="text-message other-message"><img title="' + fullname + '" src="' + avatar + '" class="chat-box-avatar" /></div>');
   var message = $('<div class="chat-box-message"></div>').text(text);
   html.append(message);
-  chatbox.find(".box-3-content").append(html);
+  var content = chatbox.find(".box-3-content");
+  content.append(html);
+  content.scrollTop(content[0].scrollHeight);
   arrangeChat();
 }
 
