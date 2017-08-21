@@ -764,6 +764,7 @@ body {
   opacity: 0;
   width: 70px;
   transition: left 0.5s ease-out, opacity 0.5s;
+  z-index: 999999;
 }
 
 .live-controls.isShow {
@@ -821,7 +822,7 @@ body {
   }
 }
 
-@media screen and (max-height: 500px) {
+@media screen and (max-height: 300px) {
   .live-controls {
     width: auto;
   }
