@@ -91,6 +91,7 @@ function showLive() {
   $(".list-provider-box").addClass("isHide");
   $(".chat-box.isShow").addClass("isHide");
   $(".btn-logout").css("display", "none");
+  $(".live-controls").css("display", "block");
   showLiveControls();
 }
 
@@ -597,6 +598,7 @@ function showLoged() {
   $(".list-provider-box").removeClass("isHide");
   $(".video-region").css("display", "none");
   $(".btn-logout").css("display", "block");
+  $(".live-controls").css("display", "none");
 
   localVideo.src = "";
   remoteVideo.src = "";
