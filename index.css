@@ -821,7 +821,7 @@ body {
   }
 }
 
-@media screen and (max-height: 400px) {
+@media screen and (max-height: 600px) {
   .live-controls {
     width: auto;
   }
