@@ -208,7 +208,7 @@ socket.on("SEND_MESSAGE_FAILED", function(response) {
 
 
 //CUSTOM INPUT
-$(document).on("keyup change paste", ".custom-input-content input", function() {
+$(document).on("keyup paste", ".custom-input-content input", function() {
   if ($(this).val().length > 0) {
     $(this).parent().siblings(".custom-input-clear").css("display", "inline-block");
   } else {
@@ -219,7 +219,7 @@ $(document).on("click", ".custom-input-icon", function() {
   $(this).siblings(".custom-input-content").children().focus();
 })
 $(document).on("click", ".custom-input-clear", function() {
-  $(this).siblings(".custom-input-content").children().focus().val('');
+  $(this).siblings(".custom-input-content").children().focus().val('').trigger("filter");
 })
 
 function activeChatbox(chatbox) {
@@ -458,7 +458,7 @@ $(document).on("click", ".chat-box-call", function(e) {
   callRequest($(this).parents(".chat-box").attr("data-username"));
 })
 
-$("#filterProvider").on("keyup change paste", function() {
+$("#filterProvider").on("keyup paste filter", function() {
   var input = $(this);
   setTimeout(function() {
     filterProvider(input.val());
