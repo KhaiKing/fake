@@ -439,6 +439,10 @@ body {
   opacity: 0.6;
 }
 
+.offline .status-icon {
+  display: none;
+}
+
 .provider-name {
   display: block;
   padding: 5px;

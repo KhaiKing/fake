@@ -633,7 +633,7 @@ function renderProvider(arr) {
       '<span class="provider-avatar" style="background-image: url(' + item.avatar + ');"></span>' +
       '<span class="provider-name">' + item.fullname + '</span>' +
       '<span class="provider-status">' +
-      '<i class="fa fa-user status-icon" aria-hidden="true"></i>' +
+      '<i class="fa fa-circle status-icon" aria-hidden="true"></i>' +
       '<i class="fa fa-users status-icon group-icon" aria-hidden="true"></i>' +
       '<i class="fa fa-phone call-icon online-icon" data-avatar="' + item.avatar + '" data-fullname="' + item.fullname + '" data-username="' + item.username + '" title="Call Provider 1" aria-hidden="true"></i>' +
       '<i class="fa fa-commenting-o chat-icon online-icon" data-avatar="' + item.avatar + '" data-fullname="' + item.fullname + '" data-username="' + item.username + '" title="Chat with ' + item.fullname + '" aria-hidden="true"></i>' +
