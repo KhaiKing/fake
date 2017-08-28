@@ -469,7 +469,7 @@ body {
 .status-icon {
   width: 20px;
   overflow: hidden;
-  font-size: 15px;
+  font-size: 12px;
   transition: color 0.3s, width 0.3s;
   vertical-align: middle;
   text-align: center;
