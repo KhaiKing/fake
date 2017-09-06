@@ -575,7 +575,7 @@ Negotiator._setupListeners = function(connection, pc, pc_id) {
 
   // MEDIACONNECTION.
   util.log('Listening for remote stream');
-  pc.ontrack = function(evt) {
+  pc.onaddstream = function(evt) {
     util.log('Received remote stream');
     var stream = evt.stream;
     var connection = provider.getConnection(peerId, connectionId);
