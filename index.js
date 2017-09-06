@@ -29,7 +29,7 @@ var peer;
 function newPeer() {
   peer = new Peer({
     key: 'peerjs',
-    host: 'peerjs-server-001.herokuapp.com',
+    host: 'peerjs-server-002.herokuapp.com',
     secure: true,
     port: 443,
     config: customConfig
